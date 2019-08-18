@@ -2,6 +2,7 @@
 #include<string>
 #include<ctime>
 #include<iomanip>
+#include<random>
 using namespace std;
 
 void input(int [], int);
@@ -11,7 +12,9 @@ void bubbleSort(int [], int);
 void swap(int*, int*);
 void selectionSort(int [], int);
 void time_it(double, double, string);
-void optimized_bubbleSort(int [], int);
+void modified_bubbleSort(int [], int);
+void mergeSort(int [], int, int);
+void merge(int [], int, int, int);
 
 int binarySearch(int a[], int low, int high, int x) {
     if (high <= low)
@@ -68,19 +71,21 @@ void selectionSort(int c[], int n) {
 
 void time_it(double strt, double lst, string str) {
     double time_taken = double(lst - strt)/ double(CLOCKS_PER_SEC);
-    cout <<"Time taken by "<< str <<" Sort is: "<< fixed << time_taken << setprecision(6);
-    cout <<"sec\n";
+    cout <<"Time taken by "<< str <<" Sort is: "<< fixed << time_taken << setprecision(3);
+    cout <<" sec(s)\n";
 }
 
 void input(int x[], int n) {
     int i;
-    srand(time(0));
+    random_device random_device;
+    mt19937 random_engine(random_device());
     for(i=0; i<n; i++) {
-        x[i] = rand() % 1000 + 1;
+        uniform_int_distribution<int> distribution_1_1000(1, 1000);
+        x[i] = distribution_1_1000(random_engine);
     }
 }
 
-void optimized_bubbleSort(int b[], int n) {
+void modified_bubbleSort(int b[], int n) {
     int i, j;
     bool swapped;
     for(i=n-1;i>=0;i--) {
@@ -95,42 +100,94 @@ void optimized_bubbleSort(int b[], int n) {
     }
 }
 
+void mergeSort(int a[], int lo, int hi) {
+    int mid;
+    if(lo < hi) {
+        mid = (lo + hi)/2;
+        mergeSort(a, lo, mid);
+        mergeSort(a, mid+1, hi);
+        merge(a, lo, hi, mid);
+    }
+}
+
+void merge(int a[], int l, int h, int m) {
+    int i, j, k, temp[h-l+1];
+    i = l;
+    j = m + 1;
+    k = 0;
+    while(i <= m && j <= h) {
+        if(a[i] < a[j])
+            temp[k++] = a[i++];
+        else
+            temp[k++] = a[j++];
+    }
+
+    while(i <= m)
+        temp[k++] = a[i++];
+
+    while(j <= h)
+        temp[k++] = a[j++];
+
+    for(i=l, j=0; i<=h; i++, j++)
+        a[i] = temp[j];
+
+}
+
 int main() {
     clock_t start, end;
     int size, elem, i;
     cout <<"Enter the size of the array\n";
     cin >> size;
-    int*a = new int[size];          //dynamic array allocation during runtime to minimize space complexity
+    //Dynamic array allocation during runtime to minimize space complexity
+    int*a = new int[size];
     int*b = new int[size];
     int*c = new int[size];
     int*d = new int[size];
+    int*e = new int[size];
     cout <<"Filling random array elements\n";
-    input(a, size);                 //Array gets automatically filled with random numbers
+
+    //Array gets automatically filled with random numbers
+    input(a, size);
     for(i=0; i < size; i++)
-        d[i] = c[i] = b[i] = a[i];
-    cout <<"Sorting the array using Binary Insertion Sort...\n";
+        e[i] = d[i] = c[i] = b[i] = a[i];
+    cout <<"Done\n";
+
+    cout <<"\nSorting the array using Merge Sort...\n";
+    start = clock();
+    mergeSort(e, 0, size-1);
+    end = clock();
+    delete[] e;
+    time_it(start, end, "Merge");
+
+    cout <<"\nSorting the array using Binary Insertion Sort...\n";
     start = clock();
     insertionSort(a, size);
     end = clock();
     delete[] a;
-    time_it(start, end, "Binary Insertion");        //Time function calculates execution time for sorting
-    cout <<"Sorting the array using Selection Sort...\n";
+    //Time function calculates execution time for sorting
+    time_it(start, end, "Binary Insertion");
+
+    cout <<"\nSorting the array using Selection Sort...\n";
     start = clock();
     selectionSort(c, size);
     end = clock();
-    delete[] c;                                    //Array memory is cleared after the array is no longer required
+    //Array memory is cleared after the array is no longer required
+    delete[] c;
     time_it(start, end, "Selection");
-    cout <<"Sorting the array using Bubble Sort...\n";
+
+    cout <<"\nSorting the array using Bubble Sort...\n";
     start = clock();
     bubbleSort(b, size);
     end = clock();
     delete[] b;
     time_it(start, end, "Bubble");
-    cout <<"Sorting the array using Optimized Bubble Sort...\n";
+
+    cout <<"\nSorting the array using Modified Bubble Sort...\n";
     start = clock();
-    optimized_bubbleSort(d, size);
+    modified_bubbleSort(d, size);
     end = clock();
     delete[] d;
-    time_it(start, end, "Optimized Bubble");
+    time_it(start, end, "Modified Bubble");
+
     return 0;
 }
