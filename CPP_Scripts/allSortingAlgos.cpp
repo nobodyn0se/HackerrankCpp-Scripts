@@ -165,6 +165,7 @@ int main() {
     time_it(start, end, "Merge");
     cpu_clock_cycles(start, end);
 
+
     cout <<"\nSorting the array using Binary Insertion Sort...\n";
     start = clock();
     insertionSort(a, size);
@@ -182,6 +183,7 @@ int main() {
     delete[] c;
     time_it(start, end, "Selection");
     cpu_clock_cycles(start, end);
+
 
     cout <<"\nSorting the array using Bubble Sort...\n";
     start = clock();
