@@ -15,6 +15,7 @@ void time_it(double, double, string);
 void modified_bubbleSort(int [], int);
 void mergeSort(int [], int, int);
 void merge(int [], int, int, int);
+void cpu_clock_cycles(double, double);
 
 int binarySearch(int a[], int low, int high, int x) {
     if (high <= low)
@@ -73,6 +74,10 @@ void time_it(double strt, double lst, string str) {
     double time_taken = double(lst - strt)/ double(CLOCKS_PER_SEC);
     cout <<"Time taken by "<< str <<" Sort is: "<< fixed << time_taken << setprecision(3);
     cout <<" sec(s)\n";
+}
+
+void cpu_clock_cycles(double _2, double _1) {
+    cout <<"CPU cycles taken: " << _1 - _2 << endl;
 }
 
 void input(int x[], int n) {
@@ -158,6 +163,8 @@ int main() {
     end = clock();
     delete[] e;
     time_it(start, end, "Merge");
+    cpu_clock_cycles(start, end);
+
 
     cout <<"\nSorting the array using Binary Insertion Sort...\n";
     start = clock();
@@ -166,6 +173,7 @@ int main() {
     delete[] a;
     //Time function calculates execution time for sorting
     time_it(start, end, "Binary Insertion");
+    cpu_clock_cycles(start, end);
 
     cout <<"\nSorting the array using Selection Sort...\n";
     start = clock();
@@ -174,6 +182,8 @@ int main() {
     //Array memory is cleared after the array is no longer required
     delete[] c;
     time_it(start, end, "Selection");
+    cpu_clock_cycles(start, end);
+
 
     cout <<"\nSorting the array using Bubble Sort...\n";
     start = clock();
@@ -181,6 +191,7 @@ int main() {
     end = clock();
     delete[] b;
     time_it(start, end, "Bubble");
+    cpu_clock_cycles(start, end);
 
     cout <<"\nSorting the array using Modified Bubble Sort...\n";
     start = clock();
@@ -188,6 +199,7 @@ int main() {
     end = clock();
     delete[] d;
     time_it(start, end, "Modified Bubble");
+    cpu_clock_cycles(start, end);
 
     return 0;
 }
