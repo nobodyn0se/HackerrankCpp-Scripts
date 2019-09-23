@@ -70,6 +70,7 @@ int main() {
             case 1: push(s); break;
             case 2: pop(s); break;
             case 3: exit(0);
+            default: printf("Invalid choice\n");
         }
     }
 }
