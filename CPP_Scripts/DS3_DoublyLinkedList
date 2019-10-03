@@ -139,6 +139,8 @@ int menu() {
     int ch;
     printf("Enter your choice: ");
     scanf("%d", &ch);
+    char ch;
+    while( ( ch = getchar() ) != '\n' && ch != EOF );
     return(ch);
 }
 
