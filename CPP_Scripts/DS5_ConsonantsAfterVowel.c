@@ -34,7 +34,7 @@ void edit() {
     if(start == NULL) printf("Empty list\n");
     else {
         t = start;
-        while(t->next != NULL) {
+        while(t != NULL) {
             x = t->data;
             if(x == 'a' || x == 'i' || x == 'e' || x == 'o'
             || x == 'u' || x == 'A' || x == 'E' || x == 'I'
