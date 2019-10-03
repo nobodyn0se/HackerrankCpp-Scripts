@@ -58,6 +58,8 @@ int menu() {
     int ch;
     printf("Enter your choice\t");
     scanf("%d", &ch);
+    char ch;
+    while( ( ch = getchar() ) != '\n' && ch != EOF );
     return(ch);
 }
 
