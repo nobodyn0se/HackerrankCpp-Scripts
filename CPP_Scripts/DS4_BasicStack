@@ -58,6 +58,9 @@ int menu() {
     int c;
     printf("Enter choice: ");
     scanf("%d", &c);
+    char ch;
+    while( ( ch = getchar() ) != '\n' && ch != EOF );
+    //Input buffer cleared
     return(c);
 }
 
